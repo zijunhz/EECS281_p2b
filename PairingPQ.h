@@ -4,6 +4,7 @@
 #define PAIRINGPQ_H
 
 #include <deque>
+#include <iostream>
 #include <utility>
 #include "Eecs281PQ.h"
 
@@ -61,11 +62,12 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     // Runtime: O(n) where n is number of elements in range.
     template <typename InputIterator>
     PairingPQ(InputIterator start, InputIterator end, COMP_FUNCTOR comp = COMP_FUNCTOR())
-        : BaseClass{comp}, root{nullptr}, cnt{0} {
+        : BaseClass{comp} {
         // TODO: Implement this function. DONE
+        root = nullptr, cnt = 0;
         std::vector<TYPE> vec(start, end);
         for (TYPE& val : vec)
-            push(val);
+            addNode(val);
     }  // PairingPQ()
 
     // Description: Copy constructor.
@@ -106,7 +108,7 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         updatePrioritiesHelper(root, vec);
         root = nullptr;
         for (Node*& item : vec)
-            meld(root, item);
+            root = meld(root, item);
     }  // updatePriorities()
 
     // Description: Add a new element to the pairing heap. This is already
@@ -127,6 +129,7 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     // Runtime: Amortized O(log(n))
     virtual void pop() {
         // TODO: Implement this function. DONE
+        traversing(root);
         cnt--;
         if (cnt == 0) {
             delete root;
@@ -143,8 +146,8 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
             node->previous = nullptr;
             node->sibling = nullptr;
         }
-        for (size_t i = 0; i < vec.size(); i += 2)
-            vec[i >> 1] = meld(vec[i], vec[i + 1]);
+        for (size_t i = 1; i < vec.size(); i += 2)
+            vec[i >> 1] = meld(vec[i - 1], vec[i]);
         int32_t vecNewSize = int32_t(vec.size() + 1) >> 1;
         if ((vec.size() & 1) == 1)
             vec[vecNewSize - 1] = vec.back();
@@ -268,6 +271,17 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         curNode->sibling = nullptr;
         curNode->previous = nullptr;
         vec.push_back(curNode);
+    }
+    void traversing(Node* curNode) {
+        if (curNode == nullptr) {
+            std::cout << "nullpter" << std::endl;
+            return;
+        }
+        std::cout << "elt: " << curNode->getElt() << std::endl;
+        std::cout << "exploring siblings of: " << curNode->getElt() << std::endl;
+        traversing(curNode->sibling);
+        std::cout << "exploring child of: " << curNode->getElt() << std::endl;
+        traversing(curNode->child);
     }
     // NOTE: For member variables, you are only allowed to add a "root
     //       pointer" and a "count" of the number of nodes. Anything else
