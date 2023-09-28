@@ -100,9 +100,6 @@ class SortedPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
 
     // TODO: Add any additional member functions you require here.
     //       You are NOT allowed to add any new member variables.
-    auto sortedPQComp(const TYPE& a, const TYPE& b) {
-        return this->compare(a, b);
-    }
 };  // SortedPQ
 
 #endif  // SORTEDPQ_H

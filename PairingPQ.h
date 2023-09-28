@@ -4,7 +4,6 @@
 #define PAIRINGPQ_H
 
 #include <deque>
-#include <iostream>
 #include <utility>
 #include "Eecs281PQ.h"
 
@@ -129,7 +128,6 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     // Runtime: Amortized O(log(n))
     virtual void pop() {
         // TODO: Implement this function. DONE
-        traversing(root);
         cnt--;
         if (cnt == 0) {
             delete root;
@@ -271,17 +269,6 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         curNode->sibling = nullptr;
         curNode->previous = nullptr;
         vec.push_back(curNode);
-    }
-    void traversing(Node* curNode) {
-        if (curNode == nullptr) {
-            std::cout << "nullpter" << std::endl;
-            return;
-        }
-        std::cout << "elt: " << curNode->getElt() << std::endl;
-        std::cout << "exploring siblings of: " << curNode->getElt() << std::endl;
-        traversing(curNode->sibling);
-        std::cout << "exploring child of: " << curNode->getElt() << std::endl;
-        traversing(curNode->child);
     }
     // NOTE: For member variables, you are only allowed to add a "root
     //       pointer" and a "count" of the number of nodes. Anything else
