@@ -107,7 +107,7 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         Node* theRoot = root;
         root = nullptr;
         updatePrioritiesHelper(theRoot);
-        traversing(root);
+        // traversing(root);
     }  // updatePriorities()
 
     // Description: Add a new element to the pairing heap. This is already
