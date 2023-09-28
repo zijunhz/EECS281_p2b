@@ -9,13 +9,13 @@
 
 // A simple interface that implements a generic priority queue.
 // Runtime specifications assume constant time comparison and copying.
-template<typename TYPE, typename COMP_FUNCTOR = std::less<TYPE>>
+template <typename TYPE, typename COMP_FUNCTOR = std::less<TYPE>>
 class Eecs281PQ {
-public:
+   public:
     virtual ~Eecs281PQ() {}
 
     // Description: Add a new element to the priority queue.
-    virtual void push(const TYPE &val) = 0;
+    virtual void push(const TYPE& val) = 0;
 
     // Description: Remove the most extreme (defined by 'compare') element
     //              from the priority queue.
@@ -27,7 +27,7 @@ public:
 
     // Description: Return the most extreme (defined by 'compare') element of
     //              the priority queue.
-    virtual const TYPE &top() const = 0;
+    virtual const TYPE& top() const = 0;
 
     // Description: Get the number of elements in the priority queue.
     virtual std::size_t size() const = 0;
@@ -41,9 +41,10 @@ public:
     //              implement this appropriately.
     virtual void updatePriorities() = 0;
 
-protected:
+   protected:
     Eecs281PQ() {}
-    explicit Eecs281PQ(const COMP_FUNCTOR &comp) : compare{ comp } {}
+    explicit Eecs281PQ(const COMP_FUNCTOR& comp)
+        : compare{comp} {}
 
     // Note: These data members *must* be used in all of your priority queue
     //       implementations.
@@ -53,7 +54,6 @@ protected:
     // With the default compare function (std::less), this will
     // tell you if Thing1 is lower priority than Thing2.
     COMP_FUNCTOR compare;
-}; // Eecs281PQ
-
+};  // Eecs281PQ
 
 #endif

@@ -1,1 +1,4 @@
-
+/.vscode
+/testPQ
+*.o
+*.gz

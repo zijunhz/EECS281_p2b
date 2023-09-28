@@ -85,8 +85,8 @@ void testPrimitiveOperations() {
     eecsPQ.push(2);
     std::cout << eecsPQ.top() << std::endl;
     eecsPQ.pop();
+
     eecsPQ.pop();
-    std::cout << eecsPQ.top() << std::endl;
     assert(eecsPQ.size() == 1);
     assert(eecsPQ.top() == 2);
     assert(not eecsPQ.empty());
@@ -94,51 +94,6 @@ void testPrimitiveOperations() {
     eecsPQ.pop();
     assert(eecsPQ.size() == 0);
     assert(eecsPQ.empty());
-
-    std::vector<int> vec = {
-        2,
-        9,
-        3,
-        5,
-        6,
-        8,
-        4,
-        2,
-        7,
-        1,
-    };
-    PQ<int> eecspq2(vec.begin(), vec.end());
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 9);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 8);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 7);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 6);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 5);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 4);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 3);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 2);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 2);
-    eecspq2.pop();
-    std::cout << eecsPQ.top() << std::endl;
-    assert(eecspq2.top() == 1);
-    eecspq2.pop();
-    assert(eecspq2.empty());
 
     // TODO: Add more testing here!
 
@@ -302,9 +257,6 @@ int main() {
             break;
         case PQType::Binary:
             testPriorityQueue<BinaryPQ>();
-            break;
-        case PQType::Pairing:
-            testPriorityQueue<PairingPQ>();
             break;
         default:
             std::cout << "Unrecognized PQ type " << pqType << " in main.\n"

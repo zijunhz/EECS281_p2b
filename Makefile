@@ -21,7 +21,7 @@
 # TODO (begin) #
 #######################
 # Change 'youruniqname' to match your UM uniqname (no quote marks).
-UNIQNAME    = youruniqname
+UNIQNAME    = zijuny
 
 # Change the right hand side of the identifier to match the project identifier
 # given in the project or lab specification.
@@ -32,9 +32,9 @@ EXECUTABLE  = testPQ
 
 # The following line looks for a project's main() in files named project*.cpp,
 # executable.cpp (substituted from EXECUTABLE above), or main.cpp
-PROJECTFILE = $(or $(wildcard project*.cpp $(EXECUTABLE).cpp), main.cpp)
+# PROJECTFILE = $(or $(wildcard project*.cpp $(EXECUTABLE).cpp), main.cpp)
 # If main() is in another file delete line above, edit and uncomment below
-#PROJECTFILE = mymainfile.cpp
+PROJECTFILE = testPQ.cpp
 
 # This is the path from the CAEN home folder to where projects will be
 # uploaded. (eg. /home/mmdarden/eecs281/project1)
@@ -64,10 +64,11 @@ CXX         = g++
 TESTSOURCES = $(wildcard test*.cpp)
 
 # list of sources used in project
-SOURCES     = $(wildcard *.cpp)
+SOURCES     = $(wildcard *.cpp *.h)
 SOURCES     := $(filter-out $(TESTSOURCES), $(SOURCES))
 # list of objects used in project
 OBJECTS     = $(SOURCES:%.cpp=%.o)
+
 
 # Default Flags
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic
@@ -324,6 +325,7 @@ help:
 # % g++ -std=c++17 -MM *.cpp
 #
 # ADD YOUR OWN DEPENDENCIES HERE
+
 
 ######################
 # TODO (end) #
