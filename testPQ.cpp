@@ -188,16 +188,17 @@ void testUpdatePriorities() {
     for (auto& datum : data) {
         eecsPQ.push(&datum);
     }
-
+    std::cout << "---- done ----" << std::endl;
     // Change some element in data (which is pointed to by an element in pq).
     // This new value should be higher than any other so its address will
     // wind qt the top adter updatePriorities.
     auto& datum = data[0];
     datum = 10;
     eecsPQ.updatePriorities();
+    std::cout << "---- done update ----" << std::endl;
     assert(*eecsPQ.top() == 10);
     assert(eecsPQ.top() == &datum);
-
+    std::cout << "---- done checking ----" << std::endl;
     // TODO: Add more testing here as you see fit.
 }
 

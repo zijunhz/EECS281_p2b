@@ -4,6 +4,7 @@
 #define PAIRINGPQ_H
 
 #include <deque>
+// #include <iostream>
 #include <utility>
 #include "Eecs281PQ.h"
 
@@ -103,11 +104,10 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     //              and create new ones!
     // Runtime: O(n) DONE
     virtual void updatePriorities() {
-        std::vector<Node*> vec;
-        updatePrioritiesHelper(root, vec);
+        Node* theRoot = root;
         root = nullptr;
-        for (Node*& item : vec)
-            root = meld(root, item);
+        updatePrioritiesHelper(theRoot);
+        traversing(root);
     }  // updatePriorities()
 
     // Description: Add a new element to the pairing heap. This is already
@@ -197,8 +197,10 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
             node->previous->child = node->sibling;
         else
             node->previous->sibling = node->sibling;
-        node->sibling->previous = node->previous;
-        node->sibling = nullptr;
+        if (node->sibling != nullptr) {
+            node->sibling->previous = node->previous;
+            node->sibling = nullptr;
+        }
         node->previous = nullptr;
         root = meld(root, node);
     }  // updateElt()
@@ -238,9 +240,11 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         if (b == nullptr)
             return a;
         if (this->compare(a->getElt(), b->getElt())) {
+            // std::cout << b->getElt() << " is father of " << a->getElt() << std::endl;
             makeAChildOfB(a, b);
             return b;
         } else {
+            // std::cout << a->getElt() << " is father of " << b->getElt() << std::endl;
             makeAChildOfB(b, a);
             return a;
         }
@@ -260,16 +264,28 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
         destructorHelper(curNode->child);
         delete curNode;
     }
-    void updatePrioritiesHelper(Node* curNode, std::vector<Node*>& vec) {
+    void updatePrioritiesHelper(Node* curNode) {
         if (curNode == nullptr)
             return;
-        updatePrioritiesHelper(curNode->sibling, vec);
-        updatePrioritiesHelper(curNode->child, vec);
+        updatePrioritiesHelper(curNode->sibling);
+        updatePrioritiesHelper(curNode->child);
         curNode->child = nullptr;
         curNode->sibling = nullptr;
         curNode->previous = nullptr;
-        vec.push_back(curNode);
+        root = meld(root, curNode);
     }
+
+    // void traversing(Node* node) {
+    //     if (node == nullptr) {
+    //         std::cout << "nullptr" << std::endl;
+    //         return;
+    //     }
+    //     std::cout << "----node " << node->getElt() << std::endl;
+    //     std::cout << "----find siblings of " << node->getElt() << std::endl;
+    //     traversing(node->sibling);
+    //     std::cout << "----find child of " << node->getElt() << std::endl;
+    //     traversing(node->child);
+    // }
     // NOTE: For member variables, you are only allowed to add a "root
     //       pointer" and a "count" of the number of nodes. Anything else
     //       (such as a deque) should be declared inside of member functions
