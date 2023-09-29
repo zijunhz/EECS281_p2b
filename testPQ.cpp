@@ -271,6 +271,43 @@ void testPriorityQueue<PairingPQ>() {
     testPairing();
 }
 
+template <template <typename...> typename PQ>
+void testUpdateElt() {
+    std::vector<int> vec = {
+        2,
+        9,
+        3,
+        5,
+        6,
+        8,
+        4,
+        2,
+        7,
+        1,
+    };
+    PairingPQ<int> eecspq(vec.begin(), vec.end());
+    PairingPQ<int>::Node* targetNode = eecspq.addNode(6);
+    assert(eecspq.top() == 9);
+    eecspq.updateElt(targetNode, 10);
+    assert(eecspq.top() == 10);
+    eecspq.updateElt(targetNode, 11);
+    assert(eecspq.top() == 11);
+    while (eecspq.size() > 1)
+        eecspq.pop();
+    assert(eecspq.top() == 1);
+    targetNode = eecspq.addNode(0);
+    assert(eecspq.top() == 1);
+    eecspq.updateElt(targetNode, 3);
+    assert(eecspq.top() == 3);
+    eecspq.push(4);
+    eecspq.push(5);
+    assert(eecspq.top() == 5);
+    eecspq.updateElt(targetNode, 6);
+    assert(eecspq.top() == 6);
+
+    std::cout << "update elt test complete" << std::endl;
+}
+
 int main() {
     const std::vector<PQType> types{
         PQType::Unordered,
@@ -307,6 +344,7 @@ int main() {
             break;
         case PQType::Pairing:
             testPriorityQueue<PairingPQ>();
+            testUpdateElt<PairingPQ>();
             break;
         default:
             std::cout << "Unrecognized PQ type " << pqType << " in main.\n"

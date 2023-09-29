@@ -267,12 +267,14 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     void updatePrioritiesHelper(Node* curNode) {
         if (curNode == nullptr)
             return;
-        updatePrioritiesHelper(curNode->sibling);
-        updatePrioritiesHelper(curNode->child);
+        Node* sibling = curNode->sibling;
+        Node* child = curNode->child;
         curNode->child = nullptr;
         curNode->sibling = nullptr;
         curNode->previous = nullptr;
         root = meld(root, curNode);
+        updatePrioritiesHelper(sibling);
+        updatePrioritiesHelper(child);
     }
 
     // void traversing(Node* node) {
