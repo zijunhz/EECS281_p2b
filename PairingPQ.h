@@ -104,9 +104,21 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
     //              and create new ones!
     // Runtime: O(n) DONE
     virtual void updatePriorities() {
-        Node* theRoot = root;
+        std::deque<Node*> nodeVec;
+        nodeVec.push_back(root);
         root = nullptr;
-        updatePrioritiesHelper(theRoot);
+        while (!nodeVec.empty()) {
+            Node* curNode = nodeVec.front();
+            nodeVec.pop_front();
+            if (curNode == nullptr)
+                continue;
+            nodeVec.push_back(curNode->sibling);
+            nodeVec.push_back(curNode->child);
+            curNode->sibling = nullptr;
+            curNode->child = nullptr;
+            curNode->previous = nullptr;
+            root = meld(root, curNode);
+        }
         // traversing(root);
     }  // updatePriorities()
 
@@ -249,30 +261,33 @@ class PairingPQ : public Eecs281PQ<TYPE, COMP_FUNCTOR> {
             return a;
         }
     }
-    Node* copyHelper(Node* curNode) {
-        if (curNode == nullptr)
-            return nullptr;
-        Node* newNode = new Node(curNode->getElt());
-        newNode->sibling = copyHelper(curNode->sibling);
-        newNode->child = copyHelper(curNode->child);
-        return newNode;
+    Node* copyHelper(Node* otherRoot) {
+        std::deque<Node*> nodeVec;
+        nodeVec.push_back(otherRoot);
+        Node* newRoot = nullptr;
+        while (!nodeVec.empty()) {
+            Node* curNode = nodeVec.front();
+            nodeVec.pop_front();
+            if (curNode == nullptr)
+                continue;
+            newRoot = meld(newRoot, new Node(curNode->getElt()));
+            nodeVec.push_back(curNode->sibling);
+            nodeVec.push_back(curNode->child);
+        }
+        return newRoot;
     }
     void destructorHelper(Node* curNode) {
-        if (curNode == nullptr)
-            return;
-        destructorHelper(curNode->sibling);
-        destructorHelper(curNode->child);
-        delete curNode;
-    }
-    void updatePrioritiesHelper(Node* curNode) {
-        if (curNode == nullptr)
-            return;
-        updatePrioritiesHelper(curNode->sibling);
-        updatePrioritiesHelper(curNode->child);
-        curNode->child = nullptr;
-        curNode->sibling = nullptr;
-        curNode->previous = nullptr;
-        root = meld(root, curNode);
+        std::deque<Node*> nodeVec;
+        nodeVec.push_back(curNode);
+        while (!nodeVec.empty()) {
+            Node* curNode = nodeVec.front();
+            nodeVec.pop_front();
+            if (curNode == nullptr)
+                continue;
+            nodeVec.push_back(curNode->sibling);
+            nodeVec.push_back(curNode->child);
+            delete curNode;
+        }
     }
 
     // void traversing(Node* node) {
