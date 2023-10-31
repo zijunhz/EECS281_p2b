@@ -1,3 +1,7 @@
+(this is not part of the license)
+
+Project description: 
+
 # Project 2b - Priority Queues
 
 ***Use Part A Due Date\***
